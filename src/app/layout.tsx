@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import CustomCursor from "../components/ui/custom-cursor"
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -12,6 +13,12 @@ const geistMono = localFont({
   variable: "--font-geist-mono",
   weight: "100 900",
 });
+
+const worksans = localFont({
+  src: "./fonts/WorkSans-VariableFont_wght.ttf",
+  variable: "--font-worksans",
+  weight: "400",
+})
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -26,9 +33,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${worksans.variable} antialiased`}
       >
-        {children}
+        <CustomCursor />{children}
       </body>
     </html>
   );
