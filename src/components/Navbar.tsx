@@ -7,8 +7,17 @@ import Image from 'next/image';
 export default function Navbar({ className }: { className?: string }) {
   const [active, setActive] = useState<string | null>(null);
 
+  const menuItems = [
+    { name: "Home", path: "/" },
+    { name: "About", path: "/about" },
+    { name: "Work", path: "/work" },
+    { name: "Services", path: "/services" },
+    { name: "Projects", path: "/projects" },
+    { name: "Contact", path: "/contact" }
+  ];
+
   return (
-    <div className={cn("fixed top-10 inset-x-0 max-w-6xl mx-auto z-40 ", className)}>
+    <div className={cn("fixed top-10 inset-x-0 max-w-6xl mx-auto z-40", className)}>
       <Menu setActive={setActive}>
         <div className="flex items-center justify-between p-1 w-full">
           {/* Logo */}
@@ -24,18 +33,15 @@ export default function Navbar({ className }: { className?: string }) {
 
           {/* Centered Menu Items */}
           <div className="flex space-x-10 font-bold" style={{ fontFamily: "var(--font-worksans)" }}>
-            {[
-              { name: "Home", path: "/" },
-              { name: "About", path: "/about" },
-              { name: "Work", path: "/work" },
-              { name: "Services", path: "/services" },
-              { name: "Projects", path: "/projects" },
-              { name: "Contact", path: "/contact" }
-            ].map(({ name, path }) => (
+            {menuItems.map(({ name, path }) => (
               <a
                 key={name}
                 href={path}
-                className="relative inline-block text-black dark:text-white group transition duration-300 ease-in-out"
+                onClick={() => setActive(name)} // Set active item on click
+                className={cn(
+                  "relative inline-block text-black dark:text-white group transition duration-300 ease-in-out",
+                  { 'text-red-500': active === name } // Highlight active item
+                )}
               >
                 <span className="relative z-10 block transition duration-200">{name}</span>
                 <span className="absolute left-0 right-0 h-0.5 bg-red-500 scale-x-0 transition-transform duration-300 transform group-hover:scale-x-100 bottom-0" />

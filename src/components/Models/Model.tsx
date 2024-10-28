@@ -1,33 +1,30 @@
 "use client";
 
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useState } from "react";
 import { useGLTF } from "@react-three/drei";
 import { GroupProps, useFrame } from "@react-three/fiber";
 import { Group, Color, MeshStandardMaterial } from "three";
 import { GLTF } from "three/examples/jsm/loaders/GLTFLoader";
 
-interface GLTFResult extends  GLTF {
+interface GLTFResult extends GLTF {
   nodes: { [key: string]: THREE.Mesh };
 }
 
 export function Model(props: GroupProps) {
   const { nodes } = useGLTF("/anime_vfx.glb") as GLTFResult;
   const modelRef = useRef<Group>(null);
-  
+
   // Extended palette of colors for dynamic assignment
   const colorPalette = [
-    new Color("#1E90FF"), new Color("#00BFFF"), new Color("#4682B4"), 
-    new Color("#6A5ACD"), new Color("#9370DB"), new Color("#8A2BE2"), 
-    new Color("#FF1493"), new Color("#FF4500"), new Color("#FFD700"), 
+    new Color("#1E90FF"), new Color("#00BFFF"), new Color("#4682B4"),
+    new Color("#6A5ACD"), new Color("#9370DB"), new Color("#8A2BE2"),
+    new Color("#FF1493"), new Color("#FF4500"), new Color("#FFD700"),
     new Color("#32CD32"), new Color("#FF8C00"), new Color("#FF69B4"),
   ];
 
-  // Randomly select colors for each mesh on refresh
-  const getRandomColor = () => colorPalette[Math.floor(Math.random() * colorPalette.length)];
-
   // Create an array of colors for each mesh on initial load
-  const [meshColors, setMeshColors] = useState<Array<Color>>(() =>
-    Array.from({ length: 9 }, getRandomColor)
+  const meshColors = Array.from({ length: 9 }, () => 
+    colorPalette[Math.floor(Math.random() * colorPalette.length)]
   );
 
   // Slower rotation speeds for each mesh (adjust as needed)
