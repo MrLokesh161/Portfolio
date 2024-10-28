@@ -43,23 +43,27 @@ export function Model(props: GroupProps) {
 
   useFrame(() => {
     if (modelRef.current) {
-      modelRef.current.children.forEach((mesh, index) => {
-        mesh.rotation.y += rotationSpeeds[index % rotationSpeeds.length];
-
-        // Check if meshColors has elements
-        const colorIndex = index % meshColors.length;
-        if (meshColors[colorIndex]) { // Ensure color exists
-          const material = new MeshStandardMaterial({
-            color: meshColors[colorIndex],
-            emissive: meshColors[colorIndex].clone().multiplyScalar(0.5),
-            transparent: true,
-            opacity: 0.9,
-          });
-          mesh.material = material;
+      modelRef.current.children.forEach((child, index) => {
+        // Check if the child is a Mesh instance
+        if (child instanceof Mesh) {
+          child.rotation.y += rotationSpeeds[index % rotationSpeeds.length];
+          
+          // Check if meshColors has elements
+          const colorIndex = index % meshColors.length;
+          if (meshColors[colorIndex]) { // Ensure color exists
+            const material = new MeshStandardMaterial({
+              color: meshColors[colorIndex],
+              emissive: meshColors[colorIndex].clone().multiplyScalar(0.5),
+              transparent: true,
+              opacity: 0.9,
+            });
+            child.material = material;
+          }
         }
       });
     }
   });
+  
 
   return (
     <group ref={modelRef} {...props} dispose={null}>
