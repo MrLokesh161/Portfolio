@@ -4,12 +4,13 @@ import React, { useRef, useEffect, useState } from "react";
 import { useGLTF } from "@react-three/drei";
 import { GroupProps, useFrame } from "@react-three/fiber";
 import { Group, Color, MeshStandardMaterial } from "three";
+import { Mesh, Material } from "three";
 import { GLTF } from "three-stdlib";
 
 // Type definition for GLTF result
 type GLTFResult = GLTF & {
-  nodes: { [key: string]: THREE.Mesh };
-  materials: { [key: string]: THREE.Material };
+  nodes: { [key: string]: Mesh };
+  materials: { [key: string]: Material };
 };
 
 
