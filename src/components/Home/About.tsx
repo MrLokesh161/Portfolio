@@ -4,6 +4,8 @@ import React from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { BackgroundBeams } from '@/components/ui/background-beams';
 import { ChevronRight, Download, Mail } from 'lucide-react';
+import Image from 'next/image';
+
 
 const About = () => {
   const { scrollY } = useScroll();
@@ -43,9 +45,11 @@ const About = () => {
                 <div className="absolute -inset-1">
                   <div className="w-full h-full rotate-3 rounded-lg bg-gradient-to-r from-violet-500 via-purple-500 to-blue-500 opacity-75"></div>
                 </div>
-                <img
+                <Image
                   src="/assets/mine2.jpg"
                   alt="Profile"
+                  width={500} // Replace 500 with the actual width of the image
+                  height={500} // Replace 500 with the actual height of the image
                   className="relative rounded-lg w-full object-cover shadow-2xl transform transition duration-500 group-hover:scale-[1.02] group-hover:-rotate-1"
                 />
                 

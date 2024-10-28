@@ -48,7 +48,7 @@ const Hero = () => {
             >
               <span className="relative">
                 <span className="bg-gradient-to-r from-violet-400 via-purple-400 to-blue-400 bg-clip-text text-transparent">
-                  Hello, I'm Lokesh
+                  Hello, I&apos;m Lokesh
                 </span>
                 <span className="absolute -bottom-2 left-0 w-full h-0.5 bg-gradient-to-r from-violet-500 via-purple-500 to-blue-500 transform scale-x-0 transition-transform duration-300 group-hover:scale-x-100"></span>
               </span>
@@ -60,7 +60,7 @@ const Hero = () => {
               transition={{ delay: 0.4 }}
               className="text-6xl font-bold text-white mb-4 leading-tight"
             >
-              I'm{" "}
+              I&apos;m{" "}
               <span
                 className={`bg-gradient-to-r from-violet-500 via-purple-500 to-blue-500 bg-clip-text text-transparent animated-role ${
                   isFadingOut ? 'fade-out' : 'fade-in'
@@ -77,7 +77,7 @@ const Hero = () => {
               transition={{ delay: 0.6 }}
               className="text-xl text-gray-300 mb-8 leading-relaxed"
             >
-              Bringing visions to life through design and technology. I'm passionate about crafting digital experiences that are innovative, visually engaging, and optimized for seamless user interactions.
+              Bringing visions to life through design and technology. I&apos;m passionate about crafting digital experiences that are innovative, visually engaging, and optimized for seamless user interactions.
             </motion.p>
           
             {/* Social Links */}

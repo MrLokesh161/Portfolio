@@ -15,13 +15,11 @@ const CustomCursor: React.FC = () => {
   const [position, setPosition] = useState<CursorPosition>({ x: 0, y: 0 });
   const [isHoveringButton, setIsHoveringButton] = useState<boolean>(false);
   const [trail, setTrail] = useState<TrailPoint[]>([]);
-  const [isClicking, setIsClicking] = useState<boolean>(false);
 
   useEffect(() => {
     const updateCursor = (e: MouseEvent): void => {
       setPosition({ x: e.clientX, y: e.clientY });
 
-      // Only update the trail if not hovering over buttons
       if (!isHoveringButton) {
         setTrail((prev) => [
           { x: e.clientX, y: e.clientY, timestamp: Date.now() },
@@ -37,13 +35,8 @@ const CustomCursor: React.FC = () => {
       setIsHoveringButton(isClickable);
     };
 
-    const handleMouseDown = (): void => setIsClicking(true);
-    const handleMouseUp = (): void => setIsClicking(false);
-
     window.addEventListener('mousemove', updateCursor);
     window.addEventListener('mouseover', updatePointerStatus);
-    window.addEventListener('mousedown', handleMouseDown);
-    window.addEventListener('mouseup', handleMouseUp);
 
     // Hide default cursor
     document.body.style.cursor = 'none';
@@ -51,11 +44,9 @@ const CustomCursor: React.FC = () => {
     return () => {
       window.removeEventListener('mousemove', updateCursor);
       window.removeEventListener('mouseover', updatePointerStatus);
-      window.removeEventListener('mousedown', handleMouseDown);
-      window.removeEventListener('mouseup', handleMouseUp);
       document.body.style.cursor = 'auto';
     };
-  }, [position, isHoveringButton]); // Added isHoveringButton to the dependency array
+  }, [position, isHoveringButton]);
 
   // Custom styles for the trail effect
   const trailStyles = (point: TrailPoint, index: number): React.CSSProperties => ({
@@ -63,19 +54,19 @@ const CustomCursor: React.FC = () => {
     top: point.y - 5,
     opacity: (15 - index) / 15,
     transform: `scale(${(15 - index) / 15})`,
-    transition: 'transform 0.3s ease-out',
+    transition: 'transform 0.3s ease-out, opacity 0.3s ease-out',
     backgroundColor: 'rgba(0, 150, 255, 0.4)', // Change color of trail
     position: 'absolute',
     borderRadius: '50%',
-    width: '10px', // Adjust trail dot size
-    height: '10px', // Adjust trail dot size
+    width: '8px', // Smaller trail dot size
+    height: '8px', // Smaller trail dot size
   });
 
   // Circle size changes based on hover state
-  const circleSize = isHoveringButton ? 60 : 50; // Change size when hovering over a button
+  const circleSize = isHoveringButton ? 70 : 50; // Change size when hovering over a button
 
   return (
-    <div className="pointer-events-none fixed inset-0 z-50">
+    <div className="pointer-events-none fixed inset-0 z-50"> {/* Ensure z-index is high */}
       {/* Trail effect */}
       {trail.map((point, index) => (
         <div
@@ -86,7 +77,7 @@ const CustomCursor: React.FC = () => {
 
       {/* Circle around the cursor */}
       <div
-        className={`absolute rounded-full border-2 border-blue-400`}
+        className={`absolute rounded-full border-4 border-blue-500 shadow-lg`}
         style={{
           left: position.x,
           top: position.y,
@@ -94,7 +85,9 @@ const CustomCursor: React.FC = () => {
           height: `${circleSize}px`,
           borderRadius: '50%',
           transform: `translate(-50%, -50%)`, // Center the circle
-          transition: 'width 0.2s ease, height 0.2s ease', // Smooth transition for size change
+          transition: 'width 0.2s ease, height 0.2s ease, background-color 0.2s ease', // Smooth transition for size change
+          backgroundColor: isHoveringButton ? 'rgba(0, 150, 255, 0.8)' : 'rgba(0, 150, 255, 0.5)',
+          zIndex: 9999, // Ensure the cursor is in front of other elements
         }}
       />
     </div>

@@ -4,58 +4,42 @@ import React, { useRef, useEffect, useState } from "react";
 import { useGLTF } from "@react-three/drei";
 import { GroupProps, useFrame } from "@react-three/fiber";
 import { Group, Color, MeshStandardMaterial } from "three";
+import { GLTF } from "three/examples/jsm/loaders/GLTFLoader";
 
-interface ModelProps extends GroupProps {}
+interface GLTFResult extends  GLTF {
+  nodes: { [key: string]: THREE.Mesh };
+}
 
-export function Model(props: ModelProps) {
-  const { nodes } = useGLTF("/anime_vfx.glb") as any;
+export function Model(props: GroupProps) {
+  const { nodes } = useGLTF("/anime_vfx.glb") as GLTFResult;
   const modelRef = useRef<Group>(null);
   
   // Extended palette of colors for dynamic assignment
   const colorPalette = [
-    new Color("#1E90FF"), // Dodger Blue
-    new Color("#00BFFF"), // Deep Sky Blue
-    new Color("#4682B4"), // Steel Blue
-    new Color("#6A5ACD"), // Slate Blue
-    new Color("#9370DB"), // Medium Purple
-    new Color("#8A2BE2"), // Blue Violet
-    new Color("#FF1493"), // Deep Pink
-    new Color("#FF4500"), // Orange Red
-    new Color("#FFD700"), // Gold
-    new Color("#32CD32"), // Lime Green
-    new Color("#FF8C00"), // Dark Orange
-    new Color("#FF69B4"), // Hot Pink
+    new Color("#1E90FF"), new Color("#00BFFF"), new Color("#4682B4"), 
+    new Color("#6A5ACD"), new Color("#9370DB"), new Color("#8A2BE2"), 
+    new Color("#FF1493"), new Color("#FF4500"), new Color("#FFD700"), 
+    new Color("#32CD32"), new Color("#FF8C00"), new Color("#FF69B4"),
   ];
 
-  // Randomly select colors for each mesh
-  const getRandomColor = () => {
-    return colorPalette[Math.floor(Math.random() * colorPalette.length)];
-  };
+  // Randomly select colors for each mesh on refresh
+  const getRandomColor = () => colorPalette[Math.floor(Math.random() * colorPalette.length)];
 
-  // Create an array of colors for each mesh
-  const [meshColors, setMeshColors] = useState<Array<Color>>(Array.from({ length: 9 }, getRandomColor));
+  // Create an array of colors for each mesh on initial load
+  const [meshColors, setMeshColors] = useState<Array<Color>>(() =>
+    Array.from({ length: 9 }, getRandomColor)
+  );
 
   // Slower rotation speeds for each mesh (adjust as needed)
-  const rotationSpeeds = [
-    0.005, 0.006, 0.007, 0.005, 0.006,
-    0.007, 0.005, 0.009, 0.007,
-  ];
-
-  useEffect(() => {
-    // Change colors on refresh
-    setMeshColors(Array.from({ length: 9 }, getRandomColor));
-  }, []);
+  const rotationSpeeds = [0.005, 0.006, 0.007, 0.005, 0.006, 0.007, 0.005, 0.009, 0.007];
 
   useFrame(() => {
     if (modelRef.current) {
-      // Rotate each mesh individually
       modelRef.current.children.forEach((mesh, index) => {
         mesh.rotation.y += rotationSpeeds[index % rotationSpeeds.length];
-
-        // Apply randomly selected colors to each mesh
         const material = new MeshStandardMaterial({
           color: meshColors[index % meshColors.length],
-          emissive: meshColors[index % meshColors.length].clone().multiplyScalar(0.5), // Soft glow effect
+          emissive: meshColors[index % meshColors.length].clone().multiplyScalar(0.5),
           transparent: true,
           opacity: 0.9,
         });

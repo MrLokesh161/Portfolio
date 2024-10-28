@@ -1,21 +1,27 @@
 "use client";
-
 import React, { useState } from "react";
-import { cn } from "@/lib/utils"; // Ensure this path is correct
-import { Menu } from "./ui/navbar-menu"; // Ensure this path is correct
+import { cn } from "@/lib/utils";
+import { Menu } from "./ui/navbar-menu";
+import Image from 'next/image';
 
 export default function Navbar({ className }: { className?: string }) {
   const [active, setActive] = useState<string | null>(null);
 
   return (
-    <div className={cn("fixed top-10 inset-x-0 max-w-6xl mx-auto z-50", className)}>
+    <div className={cn("fixed top-10 inset-x-0 max-w-6xl mx-auto z-40 ", className)}>
       <Menu setActive={setActive}>
         <div className="flex items-center justify-between p-1 w-full">
-          {/* Logo on the left */}
+          {/* Logo */}
           <div className="flex items-center">
-            <img src="/assets/logo1.png" alt="Logo" className="h-12" />
+            <Image 
+              src="/assets/logo1.png" 
+              alt="Logo" 
+              width={100} 
+              height={88} 
+              className="h-12" 
+            />
           </div>
-          
+
           {/* Centered Menu Items */}
           <div className="flex space-x-10 font-bold" style={{ fontFamily: "var(--font-worksans)" }}>
             {[
@@ -31,15 +37,13 @@ export default function Navbar({ className }: { className?: string }) {
                 href={path}
                 className="relative inline-block text-black dark:text-white group transition duration-300 ease-in-out"
               >
-                <span className="relative z-10 block transition duration-200">
-                  {name}
-                </span>
+                <span className="relative z-10 block transition duration-200">{name}</span>
                 <span className="absolute left-0 right-0 h-0.5 bg-red-500 scale-x-0 transition-transform duration-300 transform group-hover:scale-x-100 bottom-0" />
               </a>
             ))}
           </div>
 
-          {/* Updated "Get in Touch" button with radial gradient style */}
+          {/* "Get in Touch" Button */}
           <button className="bg-slate-800 no-underline group cursor-pointer relative shadow-2xl shadow-zinc-900 rounded-full p-px text-xs font-semibold leading-6 text-white inline-block">
             <span className="absolute inset-0 overflow-hidden rounded-full">
               <span className="absolute inset-0 rounded-full bg-[image:radial-gradient(75%_100%_at_50%_0%,rgba(56,189,248,0.6)_0%,rgba(56,189,248,0)_75%)] opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
