@@ -83,17 +83,56 @@ const CollisionMechanism = React.forwardRef<
   const [cycleCollisionDetected, setCycleCollisionDetected] = useState(false);
 
   useEffect(() => {
-    // Collision detection logic remains unchanged
+    const checkCollision = () => {
+      if (
+        beamRef.current &&
+        containerRef.current &&
+        parentRef.current &&
+        !cycleCollisionDetected
+      ) {
+        const beamRect = beamRef.current.getBoundingClientRect();
+        const containerRect = containerRef.current.getBoundingClientRect();
+        const parentRect = parentRef.current.getBoundingClientRect();
+
+        if (beamRect.bottom >= containerRect.top) {
+          const relativeX =
+            beamRect.left - parentRect.left + beamRect.width / 2;
+          const relativeY = beamRect.bottom - parentRect.top;
+
+          setCollision({
+            detected: true,
+            coordinates: {
+              x: relativeX,
+              y: relativeY,
+            },
+          });
+          setCycleCollisionDetected(true);
+        }
+      }
+    };
+
+    const animationInterval = setInterval(checkCollision, 50);
+
+    return () => clearInterval(animationInterval);
   }, [cycleCollisionDetected, containerRef, parentRef]);
 
   useEffect(() => {
-    // Reset collision state logic remains unchanged
+    if (collision.detected && collision.coordinates) {
+      const resetCollision = () => {
+        setCollision({ detected: false, coordinates: null });
+        setCycleCollisionDetected(false);
+      };
+
+      setTimeout(resetCollision, 2000);
+      setTimeout(() => {
+        setBeamKey((prevKey) => prevKey + 1);
+      }, 2000);
+    }
   }, [collision]);
 
   return (
     <>
       <motion.div
-        ref={ref} // Forward the ref to this element
         key={beamKey}
         ref={beamRef}
         animate="animate"
@@ -138,7 +177,6 @@ const CollisionMechanism = React.forwardRef<
     </>
   );
 });
-
 
 CollisionMechanism.displayName = "CollisionMechanism";
 
