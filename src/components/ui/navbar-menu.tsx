@@ -105,13 +105,16 @@ export const ProductItem = ({
 };
 
 // Define props for HoveredLink component
-interface HoveredLinkProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
+interface HoveredLinkProps extends Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, 'href'> {
   children: React.ReactNode;
+  href: string; // ensure href is always a string
 }
 
-export const HoveredLink: React.FC<HoveredLinkProps> = ({ children, ...rest }) => {
+
+export const HoveredLink: React.FC<HoveredLinkProps> = ({ children, href = "#", ...rest }) => {
   return (
     <Link
+      href={href} // provide default href if none is supplied
       {...rest}
       className="text-neutral-700 dark:text-neutral-200 hover:text-black "
     >
@@ -119,3 +122,4 @@ export const HoveredLink: React.FC<HoveredLinkProps> = ({ children, ...rest }) =
     </Link>
   );
 };
+
