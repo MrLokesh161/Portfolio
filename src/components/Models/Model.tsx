@@ -4,7 +4,6 @@ import React, { useRef, useEffect, useState } from "react";
 import { useGLTF } from "@react-three/drei";
 import { GroupProps, useFrame } from "@react-three/fiber";
 import { Group, Color, MeshStandardMaterial } from "three";
-import { GLTF } from "three/examples/jsm/loaders/GLTFLoader";
 
 // Type definition for GLTF result
 interface GLTFResult extends GLTF {
@@ -42,14 +41,17 @@ export function Model(props: GroupProps) {
       modelRef.current.children.forEach((mesh, index) => {
         mesh.rotation.y += rotationSpeeds[index % rotationSpeeds.length];
 
-        // Use the randomly assigned color for each mesh
-        const material = new MeshStandardMaterial({
-          color: meshColors[index % meshColors.length],
-          emissive: meshColors[index % meshColors.length].clone().multiplyScalar(0.5),
-          transparent: true,
-          opacity: 0.9,
-        });
-        mesh.material = material;
+        // Check if meshColors has elements
+        const colorIndex = index % meshColors.length;
+        if (meshColors[colorIndex]) { // Ensure color exists
+          const material = new MeshStandardMaterial({
+            color: meshColors[colorIndex],
+            emissive: meshColors[colorIndex].clone().multiplyScalar(0.5),
+            transparent: true,
+            opacity: 0.9,
+          });
+          mesh.material = material;
+        }
       });
     }
   });
