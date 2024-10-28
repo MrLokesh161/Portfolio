@@ -4,6 +4,7 @@ import React, { useRef, useEffect, useState } from "react";
 import { useGLTF } from "@react-three/drei";
 import { GroupProps, useFrame } from "@react-three/fiber";
 import { Group, Color, MeshStandardMaterial } from "three";
+import { GLTF } from "three/examples/jsm/loaders/GLTFLoader";
 
 // Type definition for GLTF result
 interface GLTFResult extends GLTF {
