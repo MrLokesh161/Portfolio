@@ -1,11 +1,12 @@
 "use client";
 
-import React, { useRef } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { useGLTF } from "@react-three/drei";
 import { GroupProps, useFrame } from "@react-three/fiber";
 import { Group, Color, MeshStandardMaterial } from "three";
 import { GLTF } from "three/examples/jsm/loaders/GLTFLoader";
 
+// Type definition for GLTF result
 interface GLTFResult extends GLTF {
   nodes: { [key: string]: THREE.Mesh };
 }
@@ -13,6 +14,9 @@ interface GLTFResult extends GLTF {
 export function Model(props: GroupProps) {
   const { nodes } = useGLTF("/anime_vfx.glb") as GLTFResult;
   const modelRef = useRef<Group>(null);
+  
+  // State to hold the mesh colors
+  const [meshColors, setMeshColors] = useState<Color[]>([]);
 
   // Extended palette of colors for dynamic assignment
   const colorPalette = [
@@ -22,10 +26,13 @@ export function Model(props: GroupProps) {
     new Color("#32CD32"), new Color("#FF8C00"), new Color("#FF69B4"),
   ];
 
-  // Create an array of colors for each mesh on initial load
-  const meshColors = Array.from({ length: 9 }, () => 
-    colorPalette[Math.floor(Math.random() * colorPalette.length)]
-  );
+  // Generate random colors for each mesh on initial load
+  useEffect(() => {
+    const newMeshColors = Array.from({ length: 9 }, () => 
+      colorPalette[Math.floor(Math.random() * colorPalette.length)]
+    );
+    setMeshColors(newMeshColors);
+  }, []); // Run only on mount
 
   // Slower rotation speeds for each mesh (adjust as needed)
   const rotationSpeeds = [0.005, 0.006, 0.007, 0.005, 0.006, 0.007, 0.005, 0.009, 0.007];
@@ -34,6 +41,8 @@ export function Model(props: GroupProps) {
     if (modelRef.current) {
       modelRef.current.children.forEach((mesh, index) => {
         mesh.rotation.y += rotationSpeeds[index % rotationSpeeds.length];
+
+        // Use the randomly assigned color for each mesh
         const material = new MeshStandardMaterial({
           color: meshColors[index % meshColors.length],
           emissive: meshColors[index % meshColors.length].clone().multiplyScalar(0.5),
@@ -129,4 +138,5 @@ export function Model(props: GroupProps) {
   );
 }
 
+// Preload the GLTF model
 useGLTF.preload('/anime_vfx.glb');
