@@ -12,6 +12,8 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
+    "typeRoots": ["./node_modules/@types", "./types"],
+    "types": ["three", "node"],
     "plugins": [
       {
         "name": "next"
