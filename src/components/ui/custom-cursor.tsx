@@ -5,7 +5,6 @@ import React, { useEffect, useRef } from 'react';
 const CustomCursor: React.FC = () => {
   const cursorRef = useRef<HTMLDivElement>(null);
   const ringRef = useRef<HTMLDivElement>(null);
-  const isHoveringRef = useRef(false);
 
   useEffect(() => {
     const updateCursor = (e: MouseEvent): void => {
@@ -22,8 +21,8 @@ const CustomCursor: React.FC = () => {
 
     const updateCursorSize = (e: MouseEvent): void => {
       const hoveredElement = document.elementFromPoint(e.clientX, e.clientY);
-      const isHoveringButton =
-        hoveredElement?.matches('button, a, input, select, [role="button"], .icon-class'); // Add your icon class here
+      const isHoveringButton: boolean = 
+        hoveredElement?.matches('button, a, input, select, [role="button"], .icon-class') || false; // Fallback to false
 
       if (cursorRef.current && ringRef.current) {
         const size = isHoveringButton ? 60 : 30; // Change sizes as needed
@@ -32,7 +31,6 @@ const CustomCursor: React.FC = () => {
         ringRef.current.style.width = `${size + 20}px`; // Add a ring around the cursor
         ringRef.current.style.height = `${size + 20}px`; // Add a ring around the cursor
       }
-      isHoveringRef.current = isHoveringButton; // Keep track of hover state
     };
 
     window.addEventListener('mousemove', updateCursor);
