@@ -56,3 +56,51 @@ body {
     transparent 10px
   );
 }
+
+/* global.css */
+
+.glow-text {
+  font-size: 2.2rem; /* Adjust based on your design */
+  font-weight: bold;
+  color: transparent;
+  -webkit-text-stroke: 1px rgb(173, 216, 230); /* Light blue stroke around the text */
+  position: relative;
+}
+
+.glow-text::before {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  color: transparent;
+  -webkit-text-stroke: 1px rgb(100, 149, 237); /* Medium blue for the border */
+  text-shadow: 
+    0 0 8px rgba(173, 216, 230, 0.8),  /* Light blue glow */
+    0 0 12px rgba(173, 216, 230, 0.5),
+    0 0 16px rgba(173, 216, 230, 0.3);
+  z-index: -1;
+}
+
+.glow-line {
+  position: relative;
+  height: 2px;
+  background-color: rgb(100, 149, 237); /* Medium blue background */
+  overflow: visible;
+}
+
+.glow-line::before {
+  content: '';
+  position: absolute;
+  top: -1px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgb(173, 216, 230); /* Lighter blue color for the line */
+  box-shadow: 
+    0 0 10px rgba(173, 216, 230, 0.8), /* Glow effect matching the blue tone */
+    0 0 20px rgba(173, 216, 230, 0.6),
+    0 0 30px rgba(173, 216, 230, 0.4),
+    0 0 40px rgba(173, 216, 230, 0.2);
+  opacity: 1;
+  z-index: -1;
+}

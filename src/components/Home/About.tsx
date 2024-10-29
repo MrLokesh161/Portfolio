@@ -3,9 +3,8 @@
 import React from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { BackgroundBeams } from '@/components/ui/background-beams';
-import { ChevronRight, Download, Mail } from 'lucide-react';
+import { ChevronRight, Download, Mail, Code, Database, Smartphone, Server, GitBranch, Cloud, Globe } from 'lucide-react'; // Import relevant icons
 import Image from 'next/image';
-
 
 const About = () => {
   const { scrollY } = useScroll();
@@ -13,8 +12,39 @@ const About = () => {
   const contentY = useTransform(scrollY, [0, 400], [0, -20]);
   const textFade = useTransform(scrollY, [0, 300], [0, 1]);
 
+  const skills = [
+    { name: 'Next.js', icon: <Code className="w-4 h-4 mr-2" /> },
+    { name: 'TypeScript', icon: <Code className="w-4 h-4 mr-2" /> },
+    { name: 'Tailwind', icon: <Code className="w-4 h-4 mr-2" /> },
+    { name: 'Nest.js', icon: <Server className="w-4 h-4 mr-2" /> },
+    { name: 'Kafka', icon: <Cloud className="w-4 h-4 mr-2" /> },
+
+  ];
+
+  const skillStack = [
+    { name: 'JavaScript', icon: <Code className="w-4 h-4 mr-2" /> },
+    { name: 'React', icon: <Code className="w-4 h-4 mr-2" /> },
+    { name: 'Solid.js', icon: <Code className="w-4 h-4 mr-2" /> },
+    { name: 'HTML', icon: <Code className="w-4 h-4 mr-2" /> },
+    { name: 'CSS', icon: <Code className="w-4 h-4 mr-2" /> },
+    { name: 'GraphQL', icon: <Globe className="w-4 h-4 mr-2" /> },
+    { name: 'MongoDB', icon: <Database className="w-4 h-4 mr-2" /> },
+    { name: 'PostgreSQL', icon: <Database className="w-4 h-4 mr-2" /> },
+    { name: 'Git', icon: <GitBranch className="w-4 h-4 mr-2" /> },
+    { name: 'React Native', icon: <Smartphone className="w-4 h-4 mr-2" /> },
+    { name: 'Flutter', icon: <Smartphone className="w-4 h-4 mr-2" /> },
+    { name: 'Django', icon: <Server className="w-4 h-4 mr-2" /> },
+    { name: 'GraphQL', icon: <Server className="w-4 h-4 mr-2" /> },
+    { name: 'Node.js', icon: <Server className="w-4 h-4 mr-2" /> },
+    { name: 'Go', icon: <Server className="w-4 h-4 mr-2" /> },
+    { name: 'Redis', icon: <Database className="w-4 h-4 mr-2" /> },
+    { name: 'Firebase', icon: <Database className="w-4 h-4 mr-2" /> },
+    { name: 'BigQuery', icon: <Database className="w-4 h-4 mr-2" /> },
+    { name: 'Docker', icon: <Cloud className="w-4 h-4 mr-2" /> },
+  ];
+
   return (
-    <section className="relative bg-black text-white pt-24 pb-[10%] overflow-hidden">
+    <section className="relative bg-black text-white pt-24 pb-[7%] overflow-hidden">
       <motion.div className="absolute inset-0 z-0">
         <BackgroundBeams />
       </motion.div>
@@ -68,11 +98,13 @@ const About = () => {
             >
               {/* Section title with gradient */}
               <motion.div style={{ opacity: textFade }} className="space-y-4">
-                <h2 className="text-5xl font-bold">
-                  <span className="bg-gradient-to-r from-violet-400 via-purple-400 to-blue-400 bg-clip-text text-transparent">
-                    About Me
-                  </span>
-                </h2>
+                <div className="flex items-center justify-center my-7">
+                  <div className="flex-1 glow-line ml-20 mr-5"></div>
+                  <h1 className="glow-text" data-text="ABOUT ME">
+                    ABOUT ME
+                  </h1>
+                  <div className="flex-1 glow-line mr-20 ml-5"></div>
+                </div>
                 
                 {/* Role title with animated border */}
                 <div className="relative inline-block">
@@ -98,12 +130,13 @@ const About = () => {
                 className="flex flex-wrap gap-3"
                 style={{ opacity: textFade }}
               >
-                {['React', 'Next.js', 'TypeScript', 'Nest.js', 'Tailwind'].map((skill) => (
+                {skills.map((skill) => (
                   <span 
-                    key={skill}
-                    className="px-4 py-2 bg-white/5 rounded-full text-sm font-medium text-gray-300 hover:bg-white/10 transition-colors duration-300"
+                    key={skill.name}
+                    className="flex items-center px-4 py-2 bg-white/5 rounded-full text-sm font-medium text-gray-300 hover:bg-white/10 transition-colors duration-300"
                   >
-                    {skill}
+                    {skill.icon}
+                    {skill.name}
                   </span>
                 ))}
               </motion.div>
@@ -138,6 +171,32 @@ const About = () => {
             </motion.div>
           </div>
         </motion.div>
+
+        {/* Skills Stack Section */}
+        <motion.div 
+          className="mt-[10%]"
+          style={{ opacity: textFade }}
+        >
+          <div className="flex items-center justify-center my-20">
+            <div className="flex-1 glow-line ml-[25%] mr-5"></div>
+              <h1 className="glow-text" data-text="TECH SPECIALTIES">
+                TECH SPECIALTIES
+              </h1>
+            <div className="flex-1 glow-line mr-[25%] ml-5"></div>
+          </div>
+          <div className="flex flex-wrap justify-center gap-5">
+            {skillStack.map((skill) => (
+              <span 
+                key={skill.name}
+                className="flex items-center px-6 py-3 bg-white/5 rounded-full text-sm font-medium text-gray-300 hover:bg-white/10 transition-colors duration-300"
+              >
+                {skill.icon}
+                {skill.name}
+              </span>
+            ))}
+          </div>
+        </motion.div>
+
       </div>
     </section>
   );

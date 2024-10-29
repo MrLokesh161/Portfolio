@@ -25,7 +25,7 @@ const Hero = () => {
   }, []);
 
   return (
-    <section className="flex w-full h-screen mt-9 items-center justify-between px-6 overflow-hidden bg-black relative">
+    <section className="flex w-full h-screen mt-24 items-center justify-between px-6 overflow-hidden bg-black relative">
       {/* Enhanced Background Elements */}
 
       <BackgroundBeamsWithCollision className="opacity-60">

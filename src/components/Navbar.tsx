@@ -10,9 +10,8 @@ export default function Navbar({ className }: { className?: string }) {
   const menuItems = [
     { name: "Home", path: "/" },
     { name: "About", path: "/about" },
-    { name: "Work", path: "/work" },
     { name: "Services", path: "/services" },
-    { name: "Projects", path: "/projects" },
+    { name: "Works", path: "/works" },
     { name: "Contact", path: "/contact" }
   ];
 
