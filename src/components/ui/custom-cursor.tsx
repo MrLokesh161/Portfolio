@@ -8,20 +8,20 @@ const CustomCursor: React.FC = () => {
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    // Function to check if the screen is mobile size
+    
     const handleResize = () => {
-      setIsMobile(window.innerWidth <= 768); // Set to true if screen width is 768px or less
+      setIsMobile(window.innerWidth <= 768); 
     };
 
-    handleResize(); // Check on initial render
-    window.addEventListener('resize', handleResize); // Listen for resize events
+    handleResize(); 
+    window.addEventListener('resize', handleResize); 
 
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
   useEffect(() => {
     if (isMobile) {
-      document.body.style.cursor = 'auto'; // Show default cursor on mobile
+      document.body.style.cursor = 'auto'; 
       return;
     }
 
